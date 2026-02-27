@@ -1,13 +1,13 @@
 <script setup>
+import { ref } from 'vue';
+
 const props = defineProps({
   requests: { type: Array, default: () => [] },
   error: String,
 });
 const emit = defineEmits(['refresh']);
 
-import { ref } from 'vue';
 const selected = ref(null);
-
 function select(r) {
   selected.value = r;
 }
@@ -55,6 +55,13 @@ function select(r) {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 12px 14px 14px;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+  border: 1px solid #e5e7eb;
 }
 .sidebar-header {
   display: flex;
@@ -116,6 +123,13 @@ function select(r) {
 .btn-xs {
   padding: 4px 10px;
   font-size: 0.8rem;
+}
+.btn.ghost {
+  background: transparent;
+  border-color: #d1d5db;
+  color: #374151;
+  border-radius: 999px;
+  border-width: 1px;
 }
 .error {
   color: #b91c1c;
