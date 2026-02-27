@@ -293,4 +293,95 @@ async function resetUserPassword(userId) {
   margin: 0 auto;
   padding: 16px 16px 40px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    sans-se
+    sans-serif;
+  color: #0f172a;
+}
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(14px);
+  background: linear-gradient(
+    to right,
+    rgba(15, 23, 42, 0.85),
+    rgba(30, 64, 175, 0.85)
+  );
+  border-radius: 999px;
+  margin: 4px auto 18px;
+  max-width: 1120px;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.45);
+}
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 18px;
+  color: #e5e7eb;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #a855f7, #22c55e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #0b1020;
+}
+.brand-name {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+}
+.nav {
+  display: flex;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+.nav-link {
+  color: #e5e7eb;
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.nav-link:hover:not(:disabled) {
+  background: rgba(15, 23, 42, 0.8);
+  color: #f9fafb;
+}
+.nav-button {
+  border: none;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+.nav-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+
+.main-layout-with-history {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 16px;
+  align-items: flex-start;
+}
+@media (max-width: 900px) {
+  .main-layout-with-history {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+</style>

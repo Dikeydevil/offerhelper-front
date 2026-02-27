@@ -59,4 +59,28 @@ const emit = defineEmits(['update:email', 'update:password', 'login', 'register'
   border-radius: 8px;
   border: 1px solid #d1d5db;
 }
-.auth-act
+.auth-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.btn {
+  border-radius: 999px;
+  padding: 9px 18px;
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.btn.primary {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #ffffff;
+}
+.btn.ghost {
+  background: transparent;
+  border-color: #d1d5db;
+  color: #374151;
+}
+.error {
+  color: #b91c1c;
+}
+</style>
