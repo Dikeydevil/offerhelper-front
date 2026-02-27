@@ -243,19 +243,31 @@ async function resetUserPassword(userId) {
       @logout="logout"
     />
 
-    <div v-if="currentPage === 'main'" class="main-layout-with-history">
-      <HistorySidebar
-        v-if="isAuthed"
-        :requests="requests"
-        :error="requestsError"
-        @refresh="loadRequests"
-      />
-      <MainPage
-        :api-base="API_BASE"
-        :access-token="accessToken"
-        @request-done="loadRequests"
-      />
+    <div v-if="currentPage === 'main'">
+      <!-- для авторизованных: история слева + форма справа -->
+      <div v-if="isAuthed" class="main-layout-with-history">
+        <HistorySidebar
+          :requests="requests"
+          :error="requestsError"
+          @refresh="loadRequests"
+        />
+        <MainPage
+          :api-base="API_BASE"
+          :access-token="accessToken"
+          @request-done="loadRequests"
+        />
+      </div>
+
+      <!-- для НЕавторизованных: только MainPage во всю ширину -->
+      <div v-else>
+        <MainPage
+          :api-base="API_BASE"
+          :access-token="accessToken"
+          @request-done="loadRequests"
+        />
+      </div>
     </div>
+
 
     <CabinetPage
       v-else-if="currentPage === 'cabinet'"

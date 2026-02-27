@@ -93,8 +93,7 @@ async function sendToAI() {
 
 <template>
   <div class="resume-layout">
-    <!-- HERO: ВСЕГДА -->
-    <section class="hero" id="how">
+    <section class="card hero" id="how">
       <div class="hero-text">
         <h1>Сделай резюме сильнее за пару минут</h1>
         <p>
@@ -196,9 +195,8 @@ async function sendToAI() {
 .hero {
   margin: 8px 0 8px;
   padding: 22px 20px 20px;
-  border-radius: 20px;
+  /* border / shadow будут от .card */
   background: radial-gradient(circle at top left, #dbeafe, #f5f3ff 45%, #f9fafb);
-  border: 1px solid #e5e7eb;
 }
 .hero-text h1 {
   font-size: clamp(1.8rem, 3vw, 2.4rem);
