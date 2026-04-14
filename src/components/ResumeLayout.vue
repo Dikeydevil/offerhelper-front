@@ -6,7 +6,7 @@ const props = defineProps({
   accessToken: [String, Object],
 });
 const emit = defineEmits(['request-done']);
-
+const outputFormat = ref('text'); // 'text' | 'docx' | 'pdf'
 const isAuthed = computed(() => !!props.accessToken);
 
 const resumeText = ref('');
@@ -70,6 +70,8 @@ async function sendToAI() {
     if (resumeText.value.trim()) formData.append('resume_text', resumeText.value.trim());
     if (vacancyText.value.trim()) formData.append('vacancy_text', vacancyText.value.trim());
 
+    formData.append('output_format', outputFormat.value); // НОВОЕ
+
     const res = await fetch(`${props.apiBase}/gigachat/generate-resume`, {
       method: 'POST',
       headers: {
@@ -78,10 +80,31 @@ async function sendToAI() {
       body: formData,
     });
 
-    if (!res.ok) throw new Error((await res.text()) || 'Ошибка при обращении к нейросети.');
+    if (!res.ok) {
+      throw new Error((await res.text()) || 'Ошибка при обращении к нейросети.');
+    }
 
-    const data = await res.json();
-    aiResult.value = data.resume_text || 'Ответ получен, но резюме пустое.';
+    if (outputFormat.value === 'text') {
+      // JSON‑ответ
+      const data = await res.json();
+      aiResult.value = data.resume_text || 'Ответ получен, но резюме пустое.';
+    } else {
+      // DOCX / PDF: скачать файл
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const ext = outputFormat.value === 'docx' ? 'docx' : 'pdf';
+      a.href = url;
+      a.download = `resume.${ext}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      // для файлов результат в текстовом блоке можно не показывать
+      aiResult.value = '';
+    }
+
     emit('request-done');
   } catch (e) {
     error.value = e.message || 'Ошибка при обращении к нейросети.';
@@ -168,6 +191,36 @@ async function sendToAI() {
         </section>
       </main>
 
+<!-- выбор формата ответа -->
+    <section class="card output-format">
+      <h2>Формат ответа</h2>
+      <div class="output-options">
+        <label class="output-option">
+          <input
+            type="radio"
+            value="text"
+            v-model="outputFormat"
+          />
+          <span>Текст (JSON, показывается ниже на странице)</span>
+        </label>
+        <label class="output-option">
+          <input
+            type="radio"
+            value="docx"
+            v-model="outputFormat"
+          />
+          <span>DOCX (скачивается файлом)</span>
+        </label>
+        <label class="output-option">
+          <input
+            type="radio"
+            value="pdf"
+            v-model="outputFormat"
+          />
+          <span>PDF (скачивается файлом)</span>
+        </label>
+      </div>
+    </section>
       <section class="actions">
         <button class="btn primary" @click="sendToAI" :disabled="loading">
           {{ loading ? 'Анализируем…' : 'Улучшить резюме под вакансию' }}
@@ -341,5 +394,21 @@ textarea:focus {
 }
 .error {
   color: #b91c1c;
+}
+.output-format {
+  margin-top: 4px;
+}
+
+.output-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.output-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 </style>
