@@ -5,7 +5,8 @@ import HistorySidebar from './components/HistorySidebar.vue';
 import MainPage from './pages/MainPage.vue';
 import CabinetPage from './pages/CabinetPage.vue';
 
-const API_BASE = 'http://127.0.0.1:8000';
+const API_BASE = '/api';
+
 
 // auth
 const email = ref('');
